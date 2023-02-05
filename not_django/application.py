@@ -1,9 +1,9 @@
 import os
+from inspect import isclass
+import multipart
+
 from not_django.response_codes import RESPONSE_404
-
-
-def page_not_found_404(request):
-    return {'code': RESPONSE_404}, '404 page not found'
+from not_django.views import View
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -17,24 +17,62 @@ class Application:
         self.fronts = fronts
 
     def __call__(self, environ, start_response):
-        path = environ['PATH_INFO']
+        request = self._get_default_request(environ)
 
-        request = {
-            'ENVIRON': environ,
-            'PATH_INFO': path,
-        }
         self._accept_middlewares(request)
 
-        view = self._get_view_by_path(path)
-        request['VIEW_MODULE'] = view.__module__.split('.')[0]
-        response, body = view(request)
+        view = self._get_view_by_path(request['path'])
 
-        headers = response.get('headers') if response.get('headers') else [('Content-Type', 'text/html')]
+        if not isinstance(view, dict):
+            request['view_module'] = view.__module__.split('.')[0]
+
+            response = self.call_view(view, request)
+        else:
+            response = view
+
+        headers = self._get_updated_headers(response)
+
         start_response(response['code'], headers)
 
-        bytes_body = [bytes(body, encoding='utf-8')]
+        bytes_body = [bytes(response['body'], encoding='utf-8')]
 
         return bytes_body
+
+    def call_view(self, view, request) -> dict:
+        """
+        Метод вызывает представление. В случае, если это класс унаследованный от View,
+        то вызывает в классе тот метод, который делает пользователь.
+        """
+        if isclass(view) and issubclass(view, View):
+            method = request['method']
+            if hasattr(view, method):
+                if method == 'post':
+                    data, _ = multipart.parse_form_data(request['ENVIRON'])
+                    request['post_data'] = data.dict
+                response = getattr(view, method)(view, request)
+
+            else:
+                response = self.__get_error_response()
+        elif not isclass(view):
+            response = view(request)
+        else:
+            response = self.__get_error_response()
+
+        return response
+
+    def page_not_found_404(self):
+        response_dict = self.__get_error_response()
+
+        return response_dict
+
+    @staticmethod
+    def _get_updated_headers(response: dict) -> list:
+        default_headers = {
+            'Content-Type': 'text/html',
+        }
+        response['headers'].update(default_headers)
+
+        return list(response['headers'].items())
 
     def _get_view_by_path(self, path):
         if path.endswith('/'):
@@ -45,10 +83,33 @@ class Application:
                 view = url[path]
                 break
             else:
-                view = page_not_found_404
+                view = self.page_not_found_404()
 
         return view
 
     def _accept_middlewares(self, request):
         for front in self.fronts:
             front(request)
+
+    @staticmethod
+    def _get_default_request(environ):
+        request = {
+            'ENVIRON': environ,
+            'path': environ['PATH_INFO'],
+            'method': environ['REQUEST_METHOD'].lower(),
+            'content_length': environ['CONTENT_LENGTH'],
+            'address': f'{environ["HTTP_HOST"]}{environ["PATH_INFO"]}',
+            'input_data': environ['wsgi.input'],
+        }
+
+        return request
+
+    @staticmethod
+    def __get_error_response():
+        response_dict = {
+            'body': '404 BAD REQUEST',
+            'code': RESPONSE_404,
+            'headers': {},
+        }
+
+        return response_dict

@@ -5,8 +5,9 @@ from not_django.response_codes import RESPONSE_200
 def response(request, html, context={}, code=RESPONSE_200, headers={}):
     body = render(html, request, context=context)
     response_dict = {
+        'body': body,
         'code': code,
-        'headers': list(headers.items()),
+        'headers': headers,
     }
 
-    return response_dict, body
+    return response_dict

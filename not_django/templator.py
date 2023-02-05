@@ -11,7 +11,7 @@ def render(template_name, request, context=None):
     :param kwargs: Контекст передаваемый в шаблон
     :return:
     """
-    view_module = request['VIEW_MODULE']
+    view_module = request['view_module']
     template_path = os.path.join(BASE_DIR, view_module, 'templates', template_name)
     with open(template_path, encoding='utf-8') as f:
         template = Template(f.read())
