@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from not_django.response import response
+from not_django.views import View
 
 
 def index_view(request):
@@ -18,3 +19,20 @@ def about_view(request):
     }
 
     return response(request, 'about.html', context=context)
+
+
+class IndexView(View):
+
+    def get(self, request):
+        form_url = request["path"]
+
+        return response(
+            request,
+            'form.html',
+            context={'form_url': form_url}
+        )
+
+    def post(self, request):
+        print(f"post_data = {request['post_data']}")
+
+        return response(request, 'form.html')
