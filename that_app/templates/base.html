@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block style %}
+    <style>
+        html, body {
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 99vh;
+        }
+
+        .main-content {
+            flex: 1 0 auto;
+        }
+
+        .footer {
+            opacity: 0.5;
+            flex-shrink: 0;
+            margin: 0 auto;
+        }
+    </style>
+    {% endblock %}
+    {% block head %}
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% endblock %}
+</head>
+<body>
+<div class="main-content"
+     {% block body %}
+     {% endblock %}
+</div>
+{% block footer %}
+<footer class="footer">That's footer</footer>
+{% endblock %}
+</body>
+</html>

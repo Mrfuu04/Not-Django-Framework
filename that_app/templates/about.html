@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block body %}
     <p>My name is {{ name }}</p>
     <p>My phone number is {{ phone_number }}</p>
     <a href="/">Index page</a>
     <br>
     <a href="/my_form">Form</a>
-</body>
-</html>
+{% endblock %}
