@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container bg-dark-subtle">
+    <form action="{{ form_url }}" method="post" enctype="multipart/form-data">
+        <label class="mb-3 col-6"> Категория
+            <a href="/create_category">(Создать категорию)</a>
+            <select class="form-select mt-2" name="category">
+                {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.title }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <div class="mb-3 col-6">
+            <label class="form-label">Название</label>
+            <input type="text" class="form-control" name="title">
+        </div>
+        <div class="mb-3 col-6">
+            <label class="form-label">Краткая информация</label>
+            <input type="text" class="form-control" name="info">
+        </div>
+        <div class="mb-3 col-6">
+            <label class="form-label">Стоимость</label>
+            <input type="text" class="form-control" name="price">
+        </div>
+        <button type="submit" class="btn btn-success mb-3">Создать</button>
+    </form>
+</div>
+{% endblock %}

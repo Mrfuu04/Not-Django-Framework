@@ -1,19 +1,24 @@
 {% extends "base.html" %}
 {% block body %}
-    <form action="{{ form_url }}" method="post" enctype="multipart/form-data">
+<div class="container">
+    <div class="row">
         <label>Тема:
-            <input type="text" name="title">
-         </label>
-        <br>
+            <div class="col">
+                <input type="text" name="title">
+            </div>
+        </label>
         <label>Сообщение:
-            <input type="text" name="text">
+            <div class="col">
+                <textarea type="text" name="text"></textarea>
+            </div>
         </label>
-        <br>
         <label>email:
-            <input type="text" name="email">
+            <div class="col">
+                <input type="text" name="email">
+            </div>
         </label>
-        <br>
-        <input type="submit">
-    </form>
-    <a href="/">Home</a>
+        <div class="col-1">
+            <button class="btn"><input type="submit"></button>
+        </div>
+    </div>
 {% endblock %}

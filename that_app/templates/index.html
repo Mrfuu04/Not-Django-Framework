@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 {% block body %}
-    <p>Hello there!</p>
-    <p>Current date is {{ current_date }}</p>
-    <a href="/about">About me</a>
-    <br>
-    <a href="/my_form">Form</a>
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-bg-secondary p-3">Hello there!</div>
+        <div class="col-12 text-bg-secondary p-3">Current date is {{ current_date }}</div>
+        <a class="link-danger" href="/about">About me</a>
+        <a class="link-danger" href="/my_form">Form</a>
+    </div>
+</div>
 {% endblock %}

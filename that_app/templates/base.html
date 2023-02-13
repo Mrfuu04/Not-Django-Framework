@@ -1,41 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% block style %}
-    <style>
-        html, body {
-            margin: 0;
-        }
-
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 99vh;
-        }
-
-        .main-content {
-            flex: 1 0 auto;
-        }
-
-        .footer {
-            opacity: 0.5;
-            flex-shrink: 0;
-            margin: 0 auto;
-        }
-    </style>
-    {% endblock %}
-    {% block head %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <title>Title</title>
-    {% endblock %}
+    <style></style>
+    <title>{% block title %}Title{% endblock %}</title>
 </head>
 <body>
-<div class="main-content"
-     {% block body %}
-     {% endblock %}
-</div>
-{% block footer %}
-<footer class="footer">That's footer</footer>
+{% block content %}
+<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+<div class="container-fluid">
+    <a class="navbar-brand px-4" href="/">FitCourses</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Переключатель навигации">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Категории
+          </a>
+          <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/courses">Все курсы</a></li>
+              {% for category in categories %}
+                <li><a class="dropdown-item" href="/courses?cat_id={{ category.id }}">{{ category.title }}</a></li>
+              {% endfor %}
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/create_course">Создать курс</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 {% endblock %}
+
+{% block body %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
 </body>
 </html>

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    {% for course in courses %}
+    <div>
+        <p>Название - {{ course.title }}</p>
+        <p>Цена - {{ course.price }}</p>
+    </div>
+    {% endfor %}
+{% endblock %}

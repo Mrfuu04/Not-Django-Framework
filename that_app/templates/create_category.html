@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container bg-dark-subtle" xmlns="http://www.w3.org/1999/html">
+    <form action="{{ form_url }}" method="post" enctype="multipart/form-data">
+        <div class="mb-3 col-6">
+            <label class="form-label">Название</label>
+            <input type="text" class="form-control" name="title">
+        </div>
+        <div class="mb-3 col-6">
+            <label class="form-label">Краткая информация</label>
+            <input type="text" class="form-control" name="info">
+        </div>
+        <button type="submit" class="btn btn-success mb-3">Создать</button>
+    </form>
+</div>
+{% endblock %}

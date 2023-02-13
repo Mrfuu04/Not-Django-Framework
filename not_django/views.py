@@ -1,13 +1,14 @@
-class View:
+from abc import ABC, abstractmethod
+
+class View(ABC):
     """
     Primary view class.
     """
-    def __init__(self, request):
-        self.get(request)
-        self.post(request)
 
+    @abstractmethod
     def get(self, request):
-        raise NotImplementedError(f'Определите get в {self.__class__.__name__}')
+        pass
 
+    @abstractmethod
     def post(self, request):
-        raise NotImplementedError(f'Определите post в {self.__class__.__name__}')
+        pass
