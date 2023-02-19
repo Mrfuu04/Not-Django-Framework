@@ -2,6 +2,8 @@ from importlib import import_module
 
 from not_django.exceptions import AppNotFound
 
+ROUTES = {}
+
 
 def path(main_url, app_name):
     try:

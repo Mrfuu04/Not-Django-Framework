@@ -113,3 +113,11 @@ class Application:
         }
 
         return response_dict
+
+
+class LoggingApplication(Application):
+
+    def call_view(self, view, request) -> dict:
+        print(f'request method ---> {request["method"]}')
+        print(f'request ---> {request}')
+        return super().call_view(view, request)

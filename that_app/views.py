@@ -1,10 +1,12 @@
 from datetime import datetime
 
+from decorators import Router
 from not_django.response import response
 from not_django.views import View
 from that_app.builders import CategoryBuilder, CourseBuilder, categories, courses
 
 
+@Router('')
 def index_view(request):
     context = {
         'current_date': datetime.today().strftime('%Y-%m-%d'),
@@ -14,6 +16,7 @@ def index_view(request):
     return response(request, 'index.html', context=context)
 
 
+@Router('/about')
 def about_view(request):
     context = {
         'name': 'Sergei',
