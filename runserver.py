@@ -1,7 +1,13 @@
-from wsgiref.simple_server import make_server
+from wsgiref.simple_server import (
+    make_server,
+)
 
-from not_django.application import Application
-from urls import urls
+from not_django.application import (
+    Application,
+)
+from urls import (
+    urls,
+)
 
 application = Application(urls)
 

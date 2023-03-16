@@ -1,6 +1,12 @@
-from dataclasses import dataclass
-from decimal import Decimal
-from typing import Optional
+from dataclasses import (
+    dataclass,
+)
+from decimal import (
+    Decimal,
+)
+from typing import (
+    Optional,
+)
 
 # Временное решение. Пока категории и курсы складываю сюда
 categories = []

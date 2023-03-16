@@ -1,4 +1,9 @@
-from that_app.views import FormView, CreateCategoryView, CreateCourse, CoursesListView
+from that_app.views import (
+    CoursesListView,
+    CreateCategoryView,
+    CreateCourse,
+    FormView,
+)
 
 urls = {
     '/my_form': FormView,

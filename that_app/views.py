@@ -1,9 +1,23 @@
-from datetime import datetime
+from datetime import (
+    datetime,
+)
 
-from decorators import Router
-from not_django.response import response
-from not_django.views import View
-from that_app.builders import CategoryBuilder, CourseBuilder, categories, courses
+from decorators import (
+    Router,
+)
+
+from not_django.response import (
+    response,
+)
+from not_django.views import (
+    View,
+)
+from that_app.builders import (
+    CategoryBuilder,
+    CourseBuilder,
+    categories,
+    courses,
+)
 
 
 @Router('')

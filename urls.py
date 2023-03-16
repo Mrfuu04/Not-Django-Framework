@@ -1,4 +1,7 @@
-from not_django.urls import path, ROUTES
+from not_django.urls import (
+    ROUTES,
+    path,
+)
 
 urls = [
     ROUTES,

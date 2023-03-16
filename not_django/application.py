@@ -1,14 +1,24 @@
 import os
-from inspect import isclass
+from inspect import (
+    isclass,
+)
+
 import multipart
 
-from not_django.response_codes import RESPONSE_404
-from not_django.views import View
+from not_django.response_codes import (
+    RESPONSE_404,
+)
+from not_django.views import (
+    View,
+)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 class Application:
+    """
+    Базовый класс приложения.
+    """
 
     def __init__(self, urls, fronts=None):
         if fronts is None:
@@ -75,6 +85,9 @@ class Application:
         return list(response['headers'].items())
 
     def _get_view_by_path(self, path):
+        """
+        Возвращает вьюху по переданному пути, если вьюха не найдена то вернет 404.
+        """
         if path.endswith('/'):
             path = path[0:-1]
 
@@ -88,11 +101,13 @@ class Application:
         return view
 
     def _accept_middlewares(self, request):
+        """Применение всех middlewares"""
         for front in self.fronts:
             front(request)
 
     @staticmethod
     def _get_default_request(environ):
+        """Парсит environ и возвращает request в стандартном виде"""
         request = {
             'ENVIRON': environ,
             'path': environ['PATH_INFO'],
@@ -106,6 +121,8 @@ class Application:
 
     @staticmethod
     def __get_error_response():
+        """Возвращает словарь с bad request"""
+
         response_dict = {
             'body': '404 BAD REQUEST',
             'code': RESPONSE_404,
@@ -116,6 +133,7 @@ class Application:
 
 
 class LoggingApplication(Application):
+    """just for lulz"""
 
     def call_view(self, view, request) -> dict:
         print(f'request method ---> {request["method"]}')

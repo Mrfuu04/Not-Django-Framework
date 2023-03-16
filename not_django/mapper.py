@@ -2,6 +2,11 @@ import threading
 
 
 class MapperRegistryMeta(type):
+    """Метакласс для класса регистрации мапперов.
+
+    По своей сути является реестром, который хранит в REGISTRY информацию о таблице, маппере и соединении с БД.
+    """
+
     REGISTRY = {}
 
     def __new__(cls, name, bases, attrs):
@@ -37,14 +42,30 @@ class MapperRegistry(metaclass=MapperRegistryMeta):
 class BaseModel:
     """Базовая модель для всех моделей таблиц."""
 
+    def __init__(self):
+        self.unit_of_work = UnitOfWork()
+
+    def start_transaction(self):
+        """
+        Все операции с моделью начинаются с этого метода.
+        Создает экземпляр UnitOfWork в рамках потока.
+        """
+        self.unit_of_work.new_current()
+
+    def commit(self):
+        self.unit_of_work.get_current().commit()
+
     def mark_new(self):
-        UnitOfWork.get_current().register_new(self)
+        """Помечает объект как новый для insert"""
+        self.unit_of_work.get_current().register_new(self)
 
     def mark_dirty(self):
-        UnitOfWork.get_current().register_dirty(self)
+        """Помечает объект как "грязный" для update"""
+        self.unit_of_work.get_current().register_dirty(self)
 
     def mark_removed(self):
-        UnitOfWork.get_current().register_removed(self)
+        """Помечает объект как удаленный для delete"""
+        self.unit_of_work.get_current().register_removed(self)
 
 
 class UnitOfWork:
